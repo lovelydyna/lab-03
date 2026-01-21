@@ -5,14 +5,22 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddCityFragment.AddCityDialogListener{
 
 
     private ArrayList<City> dataList;
     private ListView cityList;
     private CityArrayAdapter cityAdapter;
+
+    @Override
+    public void addCity(City city) {
+        cityAdapter.add(city);
+        cityAdapter.notifyDataSetChanged();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 "ON", "QC", "BC", "AB"
         };
 
-        dataList = new ArrayList<>(); 
-        
+        dataList = new ArrayList<>();
         for (int i = 0; i < cities.length; i++) {
             dataList.add(new City(cities[i], provinces[i]));
         }
@@ -36,5 +43,10 @@ public class MainActivity extends AppCompatActivity {
         cityAdapter = new CityArrayAdapter(this, dataList);
         ListView cityList = findViewById(R.id.city_list);
         cityList.setAdapter(cityAdapter);
+
+        FloatingActionButton fab = findViewById(R.id.button_add_city);
+        fab.setOnClickListener(v -> {
+            new AddCityFragment().show(getSupportFragmentManager(), "Add City");
+        });
     }
 }

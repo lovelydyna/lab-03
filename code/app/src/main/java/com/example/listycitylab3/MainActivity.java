@@ -1,19 +1,18 @@
 package com.example.listycitylab3;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<String> dataList;
+
+    private ArrayList<City> dataList;
     private ListView cityList;
-    private ArrayAdapter<String> cityAdapter;
+    private CityArrayAdapter cityAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,16 +20,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         String[] cities = {
-                "Edmonton", "Vancouver", "Moscow",
-                "Sydney", "Berlin", "Vienna",
-                "Tokyo", "Beijing", "Osaka", "New Delhi"
+                "Toronto", "Montreal", "Vancouver", "Edmonton"
         };
 
-        dataList = new ArrayList<>();
-        dataList.addAll(Arrays.asList(cities));
+        String[] provinces = {
+                "ON", "QC", "BC", "AB"
+        };
+
+        dataList = new ArrayList<>(); 
         
-        cityList = findViewById(R.id.city_list);
-        cityAdapter = new ArrayAdapter<>(this, R.layout.content, dataList);
+        for (int i = 0; i < cities.length; i++) {
+            dataList.add(new City(cities[i], provinces[i]));
+        }
+
+        cityAdapter = new CityArrayAdapter(this, dataList);
+        ListView cityList = findViewById(R.id.city_list);
         cityList.setAdapter(cityAdapter);
     }
 }

@@ -3,4 +3,5 @@
     <string name="city_text">City</string>
     <string name="province_text">Province</string>
     <string name="add_button">add</string>
+    <string name="city_toolbar">Cities</string>
 </resources>

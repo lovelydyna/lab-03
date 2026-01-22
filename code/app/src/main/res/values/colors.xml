@@ -3,4 +3,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="toolbar">#6200EE</color>
+    <color name="add_button">#9D6548</color>
 </resources>

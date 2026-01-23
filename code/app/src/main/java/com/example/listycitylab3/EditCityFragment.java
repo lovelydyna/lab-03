@@ -20,6 +20,7 @@ public class EditCityFragment extends DialogFragment {
     @NonNull
     static EditCityFragment newInstance(City cityToEdit, int position
     ) {
+        // position added + HINT
         Bundle args = new Bundle();
         args.putSerializable("city", cityToEdit);
         args.putInt("position", position);
@@ -56,10 +57,13 @@ public class EditCityFragment extends DialogFragment {
         EditText editCityName = view.findViewById(R.id.edit_text_city_text);
         EditText editProvinceName = view.findViewById(R.id.edit_text_province_text);
 
+        // Retrieve selected city
         Bundle args = getArguments();
-        City cityToEdit = (City) args.getSerializable("city");
+        City cityToEdit = null;
+        if (args != null) {
+            cityToEdit = (City) args.getSerializable("city");
+        }
         int position = args.getInt("position");
-
         if (cityToEdit != null) {
             editCityName.setText(cityToEdit.getName());
             editProvinceName.setText(cityToEdit.getProvince());

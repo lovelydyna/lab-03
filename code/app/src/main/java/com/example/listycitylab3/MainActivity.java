@@ -9,7 +9,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements AddCityFragment.AddCityDialogListener{
+public class MainActivity extends AppCompatActivity implements AddCityFragment.AddCityDialogListener, EditCityFragment.EditCityDialogListener {
 
 
     private ArrayList<City> dataList;
@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements AddCityFragment.A
                 "ON", "QC", "BC", "AB"
         };
 
+
+        // addcity fragment
         dataList = new ArrayList<>();
         for (int i = 0; i < cities.length; i++) {
             dataList.add(new City(cities[i], provinces[i]));
@@ -48,5 +50,20 @@ public class MainActivity extends AppCompatActivity implements AddCityFragment.A
         fab.setOnClickListener(v -> {
             new AddCityFragment().show(getSupportFragmentManager(), "Add City");
         });
+
+
+        // editcity fragment
+        cityList.setOnItemClickListener((parent, view, position, id) -> {
+            City cityToEdit = cityAdapter.getItem(position);
+
+            EditCityFragment fragment = EditCityFragment.newInstance(cityToEdit);
+            fragment.show(getSupportFragmentManager(), "EDIT_CITY");
+        });
+    }
+
+    @Override
+    public void editCity(City city) {
+        cityAdapter.remove(city);
+        cityAdapter.notifyDataSetChanged();
     }
 }

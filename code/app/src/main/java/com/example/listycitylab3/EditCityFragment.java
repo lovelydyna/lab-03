@@ -14,21 +14,29 @@ import androidx.fragment.app.DialogFragment;
 
 public class EditCityFragment extends DialogFragment {
 
+    private int position;
+    private City cityToEdit;
+
     @NonNull
-    public static EditCityFragment newInstance(City cityToEdit) {
+    static EditCityFragment newInstance(City cityToEdit, int position
+    ) {
         Bundle args = new Bundle();
         args.putSerializable("city", cityToEdit);
+        args.putInt("position", position);
 
         EditCityFragment fragment = new EditCityFragment();
-        fragment.setArguments(args);
         fragment.setArguments(args);
         return fragment;
     }
 
     interface EditCityDialogListener {
-        void editCity(City city);
+        void editCity(City newCity, int position);
     }
     private EditCityDialogListener listener;
+
+    public EditCityFragment() {
+
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -47,15 +55,32 @@ public class EditCityFragment extends DialogFragment {
                 LayoutInflater.from(getContext()).inflate(R.layout.fragment_add_city, null);
         EditText editCityName = view.findViewById(R.id.edit_text_city_text);
         EditText editProvinceName = view.findViewById(R.id.edit_text_province_text);
+
+        Bundle args = getArguments();
+        City cityToEdit = (City) args.getSerializable("city");
+        int position = args.getInt("position");
+
+        if (cityToEdit != null) {
+            editCityName.setText(cityToEdit.getName());
+            editProvinceName.setText(cityToEdit.getProvince());
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Add/Edit a city")
+                .setTitle("Edit a city")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Add", (dialog, which) -> {
                     String cityName = editCityName.getText().toString();
                     String provinceName = editProvinceName.getText().toString();
-                    listener.editCity(new City(cityName, provinceName));
+
+
+                    // ADDED by TA
+//                    City city = (City) getArguments().getSerializable("city");
+//                    city = new City(cityName, provinceName);
+
+//                  // OG
+                    listener.editCity(new City(cityName, provinceName), position);
                 })
                 .create();
     }

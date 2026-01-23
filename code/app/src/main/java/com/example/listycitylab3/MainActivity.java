@@ -23,6 +23,12 @@ public class MainActivity extends AppCompatActivity implements AddCityFragment.A
     }
 
     @Override
+    public void editCity(City newCity, int position) {
+        dataList.set(position, newCity);
+        cityAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -36,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements AddCityFragment.A
         };
 
 
-        // addcity fragment
+
         dataList = new ArrayList<>();
         for (int i = 0; i < cities.length; i++) {
             dataList.add(new City(cities[i], provinces[i]));
@@ -46,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements AddCityFragment.A
         ListView cityList = findViewById(R.id.city_list);
         cityList.setAdapter(cityAdapter);
 
+        // addcity fragment
         FloatingActionButton fab = findViewById(R.id.button_add_city);
         fab.setOnClickListener(v -> {
             new AddCityFragment().show(getSupportFragmentManager(), "Add City");
@@ -55,15 +62,8 @@ public class MainActivity extends AppCompatActivity implements AddCityFragment.A
         // editcity fragment
         cityList.setOnItemClickListener((parent, view, position, id) -> {
             City cityToEdit = cityAdapter.getItem(position);
-
-            EditCityFragment fragment = EditCityFragment.newInstance(cityToEdit);
+            EditCityFragment fragment = EditCityFragment.newInstance(cityToEdit, position);
             fragment.show(getSupportFragmentManager(), "EDIT_CITY");
         });
-    }
-
-    @Override
-    public void editCity(City city) {
-        cityAdapter.remove(city);
-        cityAdapter.notifyDataSetChanged();
     }
 }
